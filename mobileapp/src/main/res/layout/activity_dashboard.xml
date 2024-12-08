@@ -24,11 +24,17 @@
         android:layout_weight="1"
         android:scrollbars="vertical" />
 
+
     <Button
         android:id="@+id/btnAddMedication"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Add Medication" />
+    <Button
+        android:id="@+id/btnMedicationHistory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="History" />
 
 
 

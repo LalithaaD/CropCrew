@@ -51,6 +51,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     }
     private void init(){
         dashboardBinding.btnAddMedication.setOnClickListener(this);
+        dashboardBinding.btnMedicationHistory.setOnClickListener(this);
     }
 
 
@@ -58,6 +59,11 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         if(v.getId() == dashboardBinding.btnAddMedication.getId()){
             intent = new Intent(DashboardActivity.this, MainActivity.class);
+            startActivity(intent);
+
+        }
+        if(v.getId() == dashboardBinding.btnMedicationHistory.getId()){
+            intent = new Intent(DashboardActivity.this, HistoryActivity.class);
             startActivity(intent);
 
         }

@@ -5,6 +5,7 @@ public class Adherence {
     private String id;
     private String medicationId;
     private String name;
+    private String dosage;
     private String date;
     private String time;
     private String adherenceStatus;
@@ -13,10 +14,11 @@ public class Adherence {
         // Required for Firestore
     }
 
-    public Adherence(String id, String medicationId, String name, String date, String time, String adherenceStatus) {
+    public Adherence(String id, String medicationId, String name,String dosage, String date, String time, String adherenceStatus) {
         this.id = id;
         this.medicationId = medicationId;
         this.name = name;
+        this.dosage = dosage;
         this.date = date;
         this.time = time;
         this.adherenceStatus = adherenceStatus;
@@ -36,6 +38,14 @@ public class Adherence {
 
     public void setMedicationId(String medicationId) {
         this.medicationId = medicationId;
+    }
+
+    public String getDosage() {
+        return dosage;
+    }
+
+    public void setDosage(String dosage) {
+        this.dosage = dosage;
     }
 
     public String getName() {

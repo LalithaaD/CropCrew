@@ -5,17 +5,22 @@ public class Medication {
     private String name;
     private String dosage;
     private String time;
+    private String date;
+    private String adherenceStatus;
 
     public Medication(){
 
     }
 
-    public Medication(String id, String name, String dosage, String time) {
+    public Medication(String id, String name, String dosage, String time, String date, String adherenceStatus) {
         this.id = id;
         this.name = name;
         this.dosage = dosage;
         this.time = time;
+        this.date = date;
+        this.adherenceStatus = adherenceStatus;
     }
+
 
     public String getId() {
         return id;
@@ -47,5 +52,21 @@ public class Medication {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getAdherenceStatus() {
+        return adherenceStatus;
+    }
+
+    public void setAdherenceStatus(String adherenceStatus) {
+        this.adherenceStatus = adherenceStatus;
     }
 }

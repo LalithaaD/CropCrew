@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.HistoryActivity">
+
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/tvHistoryTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medication History"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Filters for time period and medication -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start">
+
+            <Button
+                android:id="@+id/btnFilterDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filter by Date"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btnFilterMedication"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filter by Medication" />
+        </LinearLayout>
+
+        <!-- RecyclerView to display past adherence data -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvHistory"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+
+
+</LinearLayout>

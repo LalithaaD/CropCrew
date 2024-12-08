@@ -39,7 +39,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull MedicationAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        holder.bindView(medicationList.get(position).getName(), medicationList.get(position).getDosage(),medicationList.get(position).getTime());
+        holder.bindView(medicationList.get(position).getName(), medicationList.get(position).getDosage(),medicationList.get(position).getTime(),medicationList.get(position).getDate(),medicationList.get(position).getAdherenceStatus());
         Medication medication = medicationList.get(position);
         holder.rowBinding.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +68,8 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Vi
                 intent.putExtra("name", medication.getName());
                 intent.putExtra("dosage", medication.getDosage());
                 intent.putExtra("time", medication.getTime());
+                intent.putExtra("date", medication.getDate());
+                intent.putExtra("status", medication.getAdherenceStatus());
                 v.getContext().startActivity(intent);
             }
         });
@@ -85,10 +87,12 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Vi
             super(rowBinding.getRoot());
             this.rowBinding = rowBinding;
         }
-        void bindView(final String name,final String dosage,final String time){
+        void bindView(final String name,final String dosage,final String time,final String date,final String adherenceStatus){
             rowBinding.txtName.setText(name);
             rowBinding.txtDosage.setText(dosage);
             rowBinding.txtTime.setText(time);
+            rowBinding.txtDate.setText(date);
+            rowBinding.txtAdherenceStatus.setText(adherenceStatus);
         }
 
     }

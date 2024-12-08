@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">MobileApp</string>
+    <string-array name="adherence_status_array">
+        <item>Adhered</item>
+        <item>Missed</item>
+        <item>Not Applicable</item>
+    </string-array>
 </resources>

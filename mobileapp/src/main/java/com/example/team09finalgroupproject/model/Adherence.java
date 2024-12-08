@@ -2,24 +2,48 @@ package com.example.team09finalgroupproject.model;
 
 public class Adherence {
 
-    private String medicationName;
+    private String id;
+    private String medicationId;
+    private String name;
     private String date;
     private String time;
     private String adherenceStatus;
 
-    public Adherence(String medicationName, String date, String time, String adherenceStatus) {
-        this.medicationName = medicationName;
+    public Adherence() {
+        // Required for Firestore
+    }
+
+    public Adherence(String id, String medicationId, String name, String date, String time, String adherenceStatus) {
+        this.id = id;
+        this.medicationId = medicationId;
+        this.name = name;
         this.date = date;
         this.time = time;
         this.adherenceStatus = adherenceStatus;
     }
 
-    public String getMedicationName() {
-        return medicationName;
+    public String getId() {
+        return id;
     }
 
-    public void setMedicationName(String medicationName) {
-        this.medicationName = medicationName;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getMedicationId() {
+        return medicationId;
+    }
+
+    public void setMedicationId(String medicationId) {
+        this.medicationId = medicationId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDate() {

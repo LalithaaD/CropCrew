@@ -1,8 +1,16 @@
 package com.example.team09finalgroupproject.activity;
 
+import android.Manifest;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,6 +20,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 
 import com.example.team09finalgroupproject.R;
@@ -32,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     FirebaseFirestore firestore;
     private CollectionReference medicationsRef;
     Intent intent;
+    private static final String CHANNEL_ID = "CHANNEL_01";
 
 
     @Override
@@ -56,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mainBinding.btnSelectTime.setOnClickListener(this);
         mainBinding.btnSelectDate.setOnClickListener(this);
         mainBinding.btnList.setOnClickListener(this);
+        createNotificationChannel();
     }
 
     @Override
@@ -78,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(MainActivity.this, "Medication saved", Toast.LENGTH_SHORT).show();
+                            scheduleNotification(name, time, date);
                             mainBinding.edtMedicationName.setText("");
                             mainBinding.edtDosage.setText("");
                             mainBinding.txtSelectedTime.setText("");
@@ -218,4 +232,87 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
 
     }
+    private void createNotificationChannel(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 101);
+            }
+            String channelName = getString(R.string.channel_name);
+            String channelDescription = getString(R.string.channel_description);
+            //builtin constant that sets the priority of the notification
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,channelName,importance);
+            channel.setDescription(channelDescription);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    private void scheduleNotification(String medicationName, String time, String date) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        String[] timeParts = time.split(":");
+        String[] dateParts = date.split("-");
+
+        Calendar medicationTime = Calendar.getInstance();
+        medicationTime.set(Calendar.YEAR, Integer.parseInt(dateParts[0]));
+        medicationTime.set(Calendar.MONTH, Integer.parseInt(dateParts[1]) - 1); // Month is 0-based
+        medicationTime.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateParts[2]));
+        medicationTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeParts[0]));
+        medicationTime.set(Calendar.MINUTE, Integer.parseInt(timeParts[1]));
+        medicationTime.set(Calendar.SECOND, 0);
+
+        Intent notificationIntent = new Intent(this, NotificationReceiver.class);
+        notificationIntent.putExtra("medicationName", medicationName);
+        notificationIntent.putExtra("message", "It's time to take your medication: " + medicationName + ".");
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this,
+                (int) medicationTime.getTimeInMillis(),
+                notificationIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+
+        // Build notification
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_notification) // Replace with your icon
+                .setContentTitle("Medication Reminder")
+                .setContentText("It's time to take your medication: " + medicationName + ".")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent);
+
+        // Add wearable-specific extensions
+        NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender()
+                .setContentAction(0);
+        builder.extend(wearableExtender);
+
+        // Notify
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        notificationManager.notify((int) medicationTime.getTimeInMillis(), builder.build());
+
+        // Schedule Alarm for Notification
+        if (alarmManager != null) {
+            alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    medicationTime.getTimeInMillis(),
+                    pendingIntent
+            );
+        }
+    }
+
+
+
+
 }

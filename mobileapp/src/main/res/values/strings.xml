@@ -5,4 +5,8 @@
         <item>Missed</item>
         <item>Not Applicable</item>
     </string-array>
+    <string name="channel_name">Medication</string>
+    <string name="channel_description">Medication Notification Channel</string>
+    <string name="notification_title">Don\'t Forget</string>
+    <string name="notification_text">Time for Medication</string>
 </resources>

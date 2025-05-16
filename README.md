@@ -36,4 +36,5 @@ Figma – User interface design.
 
 With its comprehensive feature set, CropCrew fosters seamless communication between farm managers and employees, ensuring efficient job distribution, regulatory compliance, and improved operational efficiency.
 
-# [View Figma Design] https://www.figma.com/design/XFJeEQx6jv6fQgdscWSEnf/CropCrew?node-id=95-204&t=qe46oxD2n43xWuE3-0
+# [View Figma Design] 
+https://www.figma.com/design/XFJeEQx6jv6fQgdscWSEnf/CropCrew?node-id=95-204&t=qe46oxD2n43xWuE3-0
